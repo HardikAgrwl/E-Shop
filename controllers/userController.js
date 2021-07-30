@@ -9,12 +9,10 @@ export const register = (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) return res.status(400).json({ info: "Email already exists" });
     const { name, email, password } = req.body;
-    let d = new Date();
     const newuser = new User({
-      name: name,
+      name,
       email: email.toLowerCase(),
-      password: password,
-      date_added: `${d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear()}`,
+      password,
     });
     bcrypt.genSalt(10, (err, salt) => {
       if (err) throw err;

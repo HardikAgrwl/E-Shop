@@ -18,8 +18,8 @@ const itemSchema = mongoose.Schema({
     required: true,
   },
   date_added: {
-    type: String,
-    required: true,
+    type: Date,
+    default: Date.now(),
   },
 });
 

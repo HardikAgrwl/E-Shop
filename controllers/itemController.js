@@ -1,7 +1,9 @@
 import Item from "../models/item.js";
 
 export const get_item = (req, res) => {
-  Item.find().then((items) => res.json(items));
+  Item.find()
+    .sort({ date_added: -1 })
+    .then((items) => res.json(items));
 };
 
 export const post_item = (req, res) => {
