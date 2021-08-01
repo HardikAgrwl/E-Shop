@@ -13,8 +13,8 @@ import {
   ModalHeader,
   NavLink,
 } from "reactstrap";
-import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
+import { login } from "../../actions/userActions";
 
 const LoginModal = (props) => {
   const [state, setState] = useState({

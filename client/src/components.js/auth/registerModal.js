@@ -13,8 +13,8 @@ import {
   ModalHeader,
   NavLink,
 } from "reactstrap";
-import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
+import { register } from "../../actions/userActions";
 
 const RegisterModal = (props) => {
   const [state, setState] = useState({

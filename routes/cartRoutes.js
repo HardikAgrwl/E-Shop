@@ -1,9 +1,13 @@
 import express from "express";
-import cartController from "../controllers/cartController.js";
+import {
+  addCartItems,
+  deleteCartItems,
+  getCartItems,
+} from "../controllers/cartController.js";
 const router = express.router();
 
-router.get("/:id", cartController.getCartItems);
-router.post("/:id", cartController.addCartItems);
-router.delete("/:userId/:itemId", cartController.deleteCartItems);
+router.get("/:id", getCartItems);
+router.post("/:id", addCartItems);
+router.delete("/:userId/:itemId", deleteCartItems);
 
 export default router;

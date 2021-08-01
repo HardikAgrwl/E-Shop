@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Button, NavLink } from "reactstrap";
-import { logout } from "../../actions/authActions";
+import { logout } from "../../actions/userActions";
 
 const Logout = () => {
   return (
