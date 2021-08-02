@@ -11,8 +11,8 @@ import {
   CardTitle,
   Container,
 } from "reactstrap";
-import { deleteFromCart, getCart } from "../actions/cartActions";
-import { checkout } from "../actions/orderActions";
+import { deleteFromCart, getCart } from "../../actions/cartActions";
+import { checkout } from "../../actions/orderActions";
 import CheckoutComponent from "./CheckoutComponent";
 import NavComponent from "./NavComponent";
 

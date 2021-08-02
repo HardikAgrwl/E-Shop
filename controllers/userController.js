@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 
 //@route POST api/users/register
@@ -7,7 +8,7 @@ import User from "../models/user.js";
 
 export const register = (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
-    if (user) return res.status(400).json({ info: "Email already exists" });
+    if (user) return res.status(400).send("Email already exists");
     const { name, email, password } = req.body;
     const newuser = new User({
       name,
@@ -57,7 +58,7 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
   User.findOne({ email: req.body.email.toLowerCase() }).then((user) => {
-    if (!user) return res.status(400).json({ info: "Email not found" });
+    if (!user) return res.status(400).send("Email not found");
     const { password } = req.body;
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -86,7 +87,7 @@ export const login = (req, res) => {
             });
           }
         );
-      } else return res.status(400).json({ info: "password incorrect" });
+      } else return res.status(400).send("password incorrect");
     });
   });
 };

@@ -4,7 +4,7 @@ import {
   deleteCartItems,
   getCartItems,
 } from "../controllers/cartController.js";
-const router = express.router();
+const router = express.Router();
 
 router.get("/:id", getCartItems);
 router.post("/:id", addCartItems);

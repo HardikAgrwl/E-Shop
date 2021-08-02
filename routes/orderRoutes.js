@@ -1,8 +1,8 @@
 import express from "express";
-import orderController from "../controllers/orderController.js";
-const router = express.router();
+import { checkout, getOrderDetails } from "../controllers/orderController.js";
+const router = express.Router();
 
-router.get("/:id", orderController.getOrderDetails);
-router.post("/:id", cartController.checkout);
+router.get("/:id", getOrderDetails);
+router.post("/:id", checkout);
 
 export default router;

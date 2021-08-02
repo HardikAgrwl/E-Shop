@@ -1,6 +1,6 @@
 import Item from "../models/item.js";
 
-export const get_item = (req, res) => {
+export const get_items = (req, res) => {
   Item.find()
     .sort({ date_added: -1 })
     .then((items) => res.json(items));

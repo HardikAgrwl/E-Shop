@@ -5,7 +5,15 @@ const itemSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: true,
+  },
   description: {
+    type: String,
+    required: true,
+  },
+  brand: {
     type: String,
     required: true,
   },
@@ -16,6 +24,20 @@ const itemSchema = mongoose.Schema({
   price: {
     type: Number,
     required: true,
+    default: 0,
+  },
+  countInStock: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  rating: {
+    type: Number,
+    default: 0,
+  },
+  numReviews: {
+    type: Number,
+    default: 0,
   },
   date_added: {
     type: Date,

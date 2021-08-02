@@ -1,9 +1,8 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import { loadUser } from "./actions/authActions";
-import Main from "./components/Main";
+import { loadUser } from "./actions/userActions";
+import "./bootstrap.min.css";
+import MainComponent from "./components/screen/MainComponent";
 import store from "./store";
 
 const App = () => {
@@ -12,11 +11,9 @@ const App = () => {
   }, []);
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <div className="App">
-          <Main />
-        </div>
-      </BrowserRouter>
+      <div className="App">
+        <MainComponent />
+      </div>
     </Provider>
   );
 };

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+import { toastConfig } from "../components/layout/toastComponent";
 import { returnErrors } from "./errorActions";
 import {
   AUTH_ERROR,
@@ -11,21 +13,34 @@ import {
   USER_LOADING,
 } from "./types";
 
-export const loadUser = (dispatch, getState) => {
+export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
+  const token = getState().user.token;
 
-  axios
-    .get("/api/user", tokenConfig(getState))
-    .then((res) =>
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data,
-      })
-    )
-    .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({ type: AUTH_ERROR });
-    });
+  // Headers
+
+  if (token) {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .get("/api/user", config)
+      .then((res) =>
+        dispatch({
+          type: USER_LOADED,
+          payload: res.data,
+        })
+      )
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({ type: AUTH_ERROR });
+      });
+  } else {
+    dispatch({ type: AUTH_ERROR });
+  }
 };
 
 export const register =
@@ -37,15 +52,15 @@ export const register =
       },
     };
     const body = JSON.stringify({ name, email, password });
-
     axios
       .post("/api/register", body, config)
-      .then((res) =>
+      .then((res) => {
+        toast.success("Registered Successfully", toastConfig);
         dispatch({
           type: REGISTER_SUCCESS,
           payload: res.data,
-        })
-      )
+        });
+      })
       .catch((err) => {
         dispatch(
           returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
@@ -71,12 +86,13 @@ export const login =
 
     axios
       .post("/api/login", body, config)
-      .then((res) =>
+      .then((res) => {
+        toast.success("Login Successfull", toastConfig);
         dispatch({
           type: LOGIN_SUCCESS,
           payload: res.data,
-        })
-      )
+        });
+      })
       .catch((err) => {
         dispatch(
           returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
@@ -88,6 +104,7 @@ export const login =
   };
 
 export const logout = () => {
+  toast.success("Logged Out Successfull", toastConfig);
   return {
     type: LOGOUT_SUCCESS,
   };
@@ -96,7 +113,7 @@ export const logout = () => {
 // Setup config/headers and token
 export const tokenConfig = (getState) => {
   //Get token from local storage
-  const token = getState().auth.token;
+  const token = getState().user.token;
 
   // Headers
   const config = {

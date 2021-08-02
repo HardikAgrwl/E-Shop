@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { Button, NavLink } from "reactstrap";
 import { logout } from "../../actions/userActions";
 
-const Logout = () => {
+const Logout = (props) => {
   return (
     <div>
       <>
         <Button color="danger" className="btn btn-sm">
-          <NavLink onClick={logout} href="#">
+          <NavLink onClick={props.logout} href="#">
             <span className="text-light">
               <b>Logout</b>
             </span>

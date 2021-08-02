@@ -11,7 +11,7 @@ import {
 export const getItems = () => (dispatch) => {
   dispatch(setItemsLoading());
   axios
-    .get("/api/items")
+    .get("/api/item")
     .then((res) =>
       dispatch({
         type: GET_ITEMS,
@@ -25,7 +25,7 @@ export const getItems = () => (dispatch) => {
 
 export const addItem = (item) => (dispatch) => {
   axios
-    .post("/api/items", item)
+    .post("/api/item", item)
     .then((res) =>
       dispatch({
         type: ADD_ITEM,
@@ -39,7 +39,7 @@ export const addItem = (item) => (dispatch) => {
 
 export const deleteItem = (id) => (dispatch) => {
   axios
-    .delete(`/api/items/${id}`)
+    .delete(`/api/item/${id}`)
     .then((res) =>
       dispatch({
         type: DELETE_ITEM,
@@ -53,7 +53,7 @@ export const deleteItem = (id) => (dispatch) => {
 
 export const updateItem = (id, item) => (dispatch) => {
   axios
-    .put(`/api/items/${id}`, item)
+    .put(`/api/item/${id}`, item)
     .then((res) =>
       dispatch({
         type: UPDATE_ITEM,
