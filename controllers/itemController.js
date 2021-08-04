@@ -6,6 +6,10 @@ export const get_items = (req, res) => {
     .then((items) => res.json(items));
 };
 
+export const get_single_item = (req, res) => {
+  Item.findById({ _id: req.params.id }).then((item) => res.json(item));
+};
+
 export const post_item = (req, res) => {
   Item.find().then((items) => res.json(items));
 };

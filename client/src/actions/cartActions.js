@@ -1,6 +1,12 @@
 import axios from "axios";
 import { returnErrors } from "./errorActions";
-import { ADD_TO_CART, CART_LOADING, DELETE_FROM_CART, GET_CART } from "./types";
+import {
+  ADD_TO_CART,
+  CART_LOADING,
+  CLEAR_CART,
+  DELETE_FROM_CART,
+  GET_CART,
+} from "./types";
 
 export const getCart = (id) => (dispatch) => {
   dispatch(setCartLoading());
@@ -48,5 +54,11 @@ export const deleteFromCart = (userId, itemId) => (dispatch) => {
 export const setCartLoading = () => {
   return {
     type: CART_LOADING,
+  };
+};
+
+export const clearCart = () => {
+  return {
+    type: CLEAR_CART,
   };
 };

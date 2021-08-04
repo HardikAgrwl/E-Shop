@@ -7,9 +7,9 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors } from "../../actions/errorActions";
 import { register } from "../../actions/userActions";
+import ValidateRegisterInput from "../auth/validation/register";
 import FormContainer from "../layout/FormContainer";
 import { toastConfig } from "../layout/toastComponent";
-import ValidateRegisterInput from "../validation/register";
 
 const RegisterModal = (props) => {
   const [state, setState] = useState({

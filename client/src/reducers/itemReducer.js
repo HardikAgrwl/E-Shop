@@ -1,6 +1,7 @@
 import {
   ADD_ITEM,
   DELETE_ITEM,
+  GET_ITEM,
   GET_ITEMS,
   ITEMS_LOADING,
   UPDATE_ITEM,
@@ -13,6 +14,13 @@ const initialState = {
 
 export default function itemReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_ITEM:
+      return {
+        ...state,
+        items: action.payload,
+        loading: false,
+      };
+
     case GET_ITEMS:
       return {
         ...state,

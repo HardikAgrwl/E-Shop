@@ -3,6 +3,7 @@ import { returnErrors } from "./errorActions";
 import {
   ADD_ITEM,
   DELETE_ITEM,
+  GET_ITEM,
   GET_ITEMS,
   ITEMS_LOADING,
   UPDATE_ITEM,
@@ -12,12 +13,27 @@ export const getItems = () => (dispatch) => {
   dispatch(setItemsLoading());
   axios
     .get("/api/item")
-    .then((res) =>
+    .then((res) => {
       dispatch({
         type: GET_ITEMS,
         payload: res.data,
-      })
-    )
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const getSingleItem = (id) => (dispatch) => {
+  dispatch(setItemsLoading());
+  axios
+    .get(`/api/item/${id}`)
+    .then((res) => {
+      dispatch({
+        type: GET_ITEM,
+        payload: [res.data],
+      });
+    })
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );

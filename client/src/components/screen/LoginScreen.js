@@ -7,9 +7,9 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors } from "../../actions/errorActions";
 import { login } from "../../actions/userActions";
+import ValidateLoginInput from "../auth/validation/login";
 import FormContainer from "../layout/FormContainer";
 import { toastConfig } from "../layout/toastComponent";
-import ValidateLoginInput from "../validation/login";
 
 const LoginScreen = (props) => {
   useEffect(() => {

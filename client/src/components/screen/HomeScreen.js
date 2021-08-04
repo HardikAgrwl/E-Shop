@@ -16,7 +16,7 @@ const HomeScreen = (props) => {
 
   return (
     <div>
-      <Row className="mx-5">
+      <Row className="mx-3">
         {loading ? (
           <Loader />
         ) : (

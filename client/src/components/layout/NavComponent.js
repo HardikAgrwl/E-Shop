@@ -2,10 +2,16 @@ import PropTypes from "prop-types";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { connect } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
+import { clearCart } from "../../actions/cartActions";
 import { logout } from "../../actions/userActions";
+import CartIconComponent from "./CartIconComponent";
 
 const NavComponent = (props) => {
   const { isAuthenticated, user } = props.user;
+  const logoutHandler = () => {
+    props.clearCart();
+    props.logout();
+  };
 
   return (
     <header>
@@ -19,7 +25,14 @@ const NavComponent = (props) => {
             <Nav className="ml-auto">
               <LinkContainer to="/cart">
                 <Nav.Link href="/cart">
-                  <i className="fas fa-shopping-cart"></i> Cart
+                  {isAuthenticated ? (
+                    <CartIconComponent />
+                  ) : (
+                    <>
+                      {"Cart "}
+                      <i className="fas fa-shopping-cart"></i>
+                    </>
+                  )}
                 </Nav.Link>
               </LinkContainer>
               {isAuthenticated ? (
@@ -27,14 +40,15 @@ const NavComponent = (props) => {
                   <LinkContainer to="/order">
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
-                  <NavDropdown.Item onClick={props.logout}>
+                  <NavDropdown.Item onClick={() => logoutHandler()}>
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>
-                    <i className="fas fa-user"></i> Sign In
+                    {"Sign In "}
+                    <i className="fas fa-user"></i>
                   </Nav.Link>
                 </LinkContainer>
               )}
@@ -54,4 +68,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { logout })(NavComponent);
+export default connect(mapStateToProps, { logout, clearCart })(NavComponent);

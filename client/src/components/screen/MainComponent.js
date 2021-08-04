@@ -16,27 +16,13 @@ const MainComponent = () => {
       <ToastComponent />
       <Router>
         <NavComponent />
-        <Route path="/" exact>
-          <HomeComponent />
-        </Route>
-        <Route path="/login" exact>
-          <LoginScreen />
-        </Route>
-        <Route path="/register" exact>
-          <RegisterScreen />
-        </Route>
-        <Route path="/item/:id" exact>
-          <ItemScreen />
-        </Route>
-        <Route path="/addItem" exact>
-          <AddItemComponent />
-        </Route>
-        <Route path="/cart" exact>
-          <CartComponent />
-        </Route>
-        <Route path="/orders" exact>
-          <OrderComponent />
-        </Route>
+        <Route path="/" exact component={HomeComponent} />
+        <Route path="/login" exact component={LoginScreen} />
+        <Route path="/register" exact component={RegisterScreen} />
+        <Route path="/item/:id" exact component={ItemScreen} />
+        <Route path="/addItem" exact component={AddItemComponent} />
+        <Route path="/cart" exact component={CartComponent} />
+        <Route path="/orders" exact component={OrderComponent} />
       </Router>
     </div>
   );

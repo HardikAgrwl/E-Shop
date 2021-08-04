@@ -33,24 +33,25 @@ export const addCartItems = async (req, res) => {
       //checkif the product exists on cart or not
       if (itemIndex > -1) {
         let productItem = cart.items[itemIndex];
-        productItem.quantity += quantity;
+        productItem.quantity += Number(quantity);
         cart.items[itemIndex] = productItem;
       } else {
-        cart.items.push({ produtcId, name, quantity, price });
+        cart.items.push({ productId, name, quantity, price });
       }
-      cart.bill += quantity * price;
+      cart.bill = cart.bill + Number((quantity * price).toFixed(2));
       cart = await cart.save();
       return res.status(201).send(cart);
     } else {
       //no cart exists , create one
       const newCart = await Cart.create({
         userId,
-        items: [{ productId, name, quantity, price, bill: quantity * price }],
+        items: [{ productId, name, quantity, price }],
+        bill: Number((quantity * price).toFixed(2)),
       });
       return res.status(201).send(newCart);
     }
   } catch (err) {
-    console.log(error);
+    console.log(err);
     res.status(500).send("Something went wrong");
   }
 };
