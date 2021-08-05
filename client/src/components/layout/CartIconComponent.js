@@ -11,7 +11,6 @@ const CartIconComponent = ({ cart, getCart, user }) => {
     for (let i = 0; i < items.length; i++) {
       cartCount += items[i].quantity;
     }
-    console.log(cart.bill);
     setItemCount(cartCount);
   };
   useEffect(() => {

@@ -4,6 +4,8 @@ import {
   CLEAR_CART,
   DELETE_FROM_CART,
   GET_CART,
+  SAVE_CART,
+  UPDATE_CART,
 } from "../actions/types";
 
 const initialState = {
@@ -22,6 +24,8 @@ export default function cartReducer(state = initialState, action) {
 
     case ADD_TO_CART:
     case DELETE_FROM_CART:
+    case UPDATE_CART:
+    case SAVE_CART:
       return {
         ...state,
         cart: action.payload,

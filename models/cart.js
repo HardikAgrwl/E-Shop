@@ -9,7 +9,9 @@ const CartSchema = mongoose.Schema({
       productId: {
         type: String,
       },
+      image: String,
       name: String,
+      countInStock: Number,
       quantity: {
         type: Number,
         required: true,

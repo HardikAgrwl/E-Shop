@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddItemComponent from "../layout/AddItemComponent";
-import CartComponent from "../layout/CartComponent";
 import NavComponent from "../layout/NavComponent";
 import OrderComponent from "../layout/OrderComponent";
 import { ToastComponent } from "../layout/toastComponent";
+import CartScreen from "./cartScreen";
 import HomeComponent from "./HomeScreen";
 import ItemScreen from "./ItemScreen";
 import LoginScreen from "./LoginScreen";
@@ -13,7 +13,7 @@ import RegisterScreen from "./RegisterScreen";
 const MainComponent = () => {
   return (
     <div>
-      <ToastComponent />
+      <ToastComponent limit={1} />
       <Router>
         <NavComponent />
         <Route path="/" exact component={HomeComponent} />
@@ -21,7 +21,7 @@ const MainComponent = () => {
         <Route path="/register" exact component={RegisterScreen} />
         <Route path="/item/:id" exact component={ItemScreen} />
         <Route path="/addItem" exact component={AddItemComponent} />
-        <Route path="/cart" exact component={CartComponent} />
+        <Route path="/cart" exact component={CartScreen} />
         <Route path="/orders" exact component={OrderComponent} />
       </Router>
     </div>

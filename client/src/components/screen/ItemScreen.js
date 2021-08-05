@@ -13,32 +13,63 @@ import { connect } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addToCart } from "../../actions/cartActions";
-import { getSingleItem } from "../../actions/itemActions";
 import Loader from "../layout/loader";
 import Rating from "../layout/Rating";
 import { toastConfig } from "../layout/toastComponent";
 
-const ItemScreen = (props) => {
+const ItemScreen = ({ item, isAuthenticated, user, cart, addToCart }) => {
   const [qty, setQty] = useState(1);
   const { id } = useParams();
   const itemId = useState(id)[0];
   const history = useHistory();
+  const [product, setProduct] = useState({});
 
-  const fetchItem = async () => {
-    await props.getSingleItem(itemId);
+  const getItem = (itemId) => {
+    const itemIndex = item.items.findIndex((p) => p._id === itemId);
+    setProduct(item.items[itemIndex]);
   };
+  if (product === {}) getItem(itemId);
 
   useEffect(() => {
-    fetchItem(); //eslint-disable-next-line
-  }, []);
+    getItem(itemId);
+    //eslint-disable-next-line
+  }, [itemId]);
 
-  const { items, loading } = props.item;
-  const product = items[0];
+  // if (!item.items) fetchItem();
 
-  const addToCartHandler = () => {
-    // history.push(`/cart/${id}?qty=${qty}`);
-    if (props.isAuthenticated) {
-      props.addToCart(props.user.id, product._id, qty);
+  const { loading } = item;
+
+  const addToCartHandler = (id) => {
+    if (isAuthenticated) {
+      // addToCart(user.id, product._id, qty);
+      let updatedCartItems = cart.items ? [...cart.items] : [];
+      let itemIndex = cart.items
+        ? cart.items.findIndex((p) => p.productId === id)
+        : -1;
+      //checkif the product exists on cart or not
+      if (itemIndex > -1) {
+        let productItem = cart.items[itemIndex];
+        productItem.quantity += Number(qty);
+        if (productItem.quantity > 5) {
+          console.log(productItem.quantity);
+          productItem.quantity -= Number(qty);
+          toast.error("Maximum 5 units allowed", toastConfig);
+          return;
+        } else updatedCartItems[itemIndex] = productItem;
+      } else {
+        const { _id, title, image, countInStock, price } = product;
+        updatedCartItems.push({
+          productId: _id,
+          name: title,
+          image,
+          countInStock,
+          quantity: qty,
+          price,
+        });
+      }
+      let bill = cart.bill ? cart.bill : 0;
+      bill = Number((bill + qty * product.price).toFixed(2));
+      addToCart(user._id, updatedCartItems, bill);
     } else {
       toast.warning("Login to continue", toastConfig);
       history.push("/login");
@@ -116,7 +147,7 @@ const ItemScreen = (props) => {
                   )}
                   <ListGroup.Item>
                     <Button
-                      onClick={addToCartHandler}
+                      onClick={() => addToCartHandler(product._id)}
                       className="btn-block"
                       disabled={product.countInStock <= 0 ? true : false}
                     >
@@ -134,16 +165,15 @@ const ItemScreen = (props) => {
 };
 
 ItemScreen.propTypes = {
-  getSingleItem: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   item: state.item,
   isAuthenticated: state.user.isAuthenticated,
   user: state.user.user,
+  cart: state.cart.cart,
 });
 
-export default connect(mapStateToProps, { getSingleItem, addToCart })(
-  ItemScreen
-);
+export default connect(mapStateToProps, { addToCart })(ItemScreen);

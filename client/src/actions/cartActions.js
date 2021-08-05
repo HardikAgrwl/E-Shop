@@ -6,6 +6,8 @@ import {
   CLEAR_CART,
   DELETE_FROM_CART,
   GET_CART,
+  SAVE_CART,
+  UPDATE_CART,
 } from "./types";
 
 export const getCart = (id) => (dispatch) => {
@@ -23,12 +25,34 @@ export const getCart = (id) => (dispatch) => {
     );
 };
 
-export const addToCart = (id, productId, quantity) => (dispatch) => {
+export const addToCart = (id, updatedCartItems, bill) => (dispatch) => {
   axios
-    .post(`/api/cart/${id}`, { productId, quantity })
+    .post(`/api/cart/${id}`, { updatedCartItems, bill })
     .then((res) =>
       dispatch({
         type: ADD_TO_CART,
+        payload: res.data,
+      })
+    )
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const updateCart = (cart) => (dispatch) => {
+  dispatch({
+    type: UPDATE_CART,
+    payload: { ...cart },
+  });
+};
+
+export const saveCart = (id, productId, quantity) => (dispatch) => {
+  console.log("cartAction updatecart");
+  axios
+    .put(`/api/cart/${id}`, { productId, quantity })
+    .then((res) =>
+      dispatch({
+        type: SAVE_CART,
         payload: res.data,
       })
     )
