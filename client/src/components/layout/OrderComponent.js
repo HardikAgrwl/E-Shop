@@ -1,16 +1,9 @@
 import PropTypes from "prop-types";
-import { Fragment, useState } from "react";
+import { useState } from "react";
+import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { connect } from "react-redux";
-import {
-  Alert,
-  Card,
-  CardBody,
-  CardSubtitle,
-  CardTitle,
-  Container,
-} from "reactstrap";
+import { Alert } from "reactstrap";
 import { getOrders } from "../../actions/orderActions";
-import NavComponent from "./NavComponent";
 
 const OrderComponent = (props) => {
   const [state, setState] = useState({
@@ -23,62 +16,152 @@ const OrderComponent = (props) => {
   };
 
   const user = props.user;
-  if (props.isAuthenticated && !props.order.loading && !state.loaded) {
+  const { orders, loading } = props.order;
+  if (props.isAuthenticated && !loading && !state.loaded) {
     ongetOrders(user._id);
   }
   return (
     <div>
-      <NavComponent />
       {props.isAuthenticated ? (
-        <Fragment>
-          {props.order.orders !== [] ? null : (
+        <>
+          {orders !== [] ? null : (
             <Alert color="info" className="text-center">
               You have no orders!
             </Alert>
           )}
-        </Fragment>
+        </>
       ) : (
         <Alert color="danger" className="text-center">
           Login to View!
         </Alert>
       )}
 
-      {props.isAuthenticated &&
-      !props.order.loading &&
-      state.loaded &&
-      props.order.orders.length ? (
-        <Container>
-          <div className="row">
-            {props.order.orders.map((order) => (
-              <div className="col-md-12">
-                <Card>
-                  <CardBody>
-                    <CardTitle tag="h4">
-                      {order.items.length} items - Total cost: Rs. {order.bill}
-                    </CardTitle>
-                    <div className="row">
-                      {order.items.map((item) => (
-                        <div className="col-md-4">
-                          <Card className="mb-2">
-                            <CardBody>
-                              <CardTitle tag="h5">
-                                {item.name} ({item.quantity} pieces)
-                              </CardTitle>
-                              <CardSubtitle tag="h6">
-                                Rs. {item.price}/piece
-                              </CardSubtitle>
-                            </CardBody>
-                          </Card>
-                        </div>
+      {props.isAuthenticated && !loading && state.loaded && orders.length ? (
+        <>
+          <h1>Order {order._id}</h1>
+          <Row>
+            <Col md={8}>
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <h2>Shipping</h2>
+                  <p>
+                    <strong>Name: </strong> {order.user.name}
+                  </p>
+                  <p>
+                    <strong>Email: </strong>{" "}
+                    <a href={`mailto:${order.user.email}`}>
+                      {order.user.email}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Address:</strong>
+                    {order.shippingAddress.address},{" "}
+                    {order.shippingAddress.city}{" "}
+                    {order.shippingAddress.postalCode},{" "}
+                    {order.shippingAddress.country}
+                  </p>
+                  {order.isDelivered ? (
+                    <Message variant="success">
+                      Delivered on {order.deliveredAt}
+                    </Message>
+                  ) : (
+                    <Message variant="danger">Not Delivered</Message>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h2>Payment Method</h2>
+                  <p>
+                    <strong>Method: </strong>
+                    {order.paymentMethod}
+                  </p>
+                  {order.isPaid ? (
+                    <Message variant="success">Paid on {order.paidAt}</Message>
+                  ) : (
+                    <Message variant="danger">Not Paid</Message>
+                  )}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <h2>Order Items</h2>
+                  {order.orderItems.length === 0 ? (
+                    <Message>Order is empty</Message>
+                  ) : (
+                    <ListGroup variant="flush">
+                      {order.orderItems.map((item, index) => (
+                        <ListGroup.Item key={index}>
+                          <Row>
+                            <Col md={1}>
+                              <Image
+                                src={item.image}
+                                alt={item.name}
+                                fluid
+                                rounded
+                              />
+                            </Col>
+                            <Col>
+                              <Link to={`/product/${item.product}`}>
+                                {item.name}
+                              </Link>
+                            </Col>
+                            <Col md={4}>
+                              {item.qty} x ${item.price} = $
+                              {item.qty * item.price}
+                            </Col>
+                          </Row>
+                        </ListGroup.Item>
                       ))}
-                    </div>
-                  </CardBody>
-                </Card>
-                <br />
-              </div>
-            ))}
-          </div>
-        </Container>
+                    </ListGroup>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>
+            <Col md={4}>
+              <Card>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    <h2>Order Summary</h2>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Items</Col>
+                      <Col>${order.itemsPrice}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Shipping</Col>
+                      <Col>${order.shippingPrice}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Tax</Col>
+                      <Col>${order.taxPrice}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Total</Col>
+                      <Col>${order.totalPrice}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                  {!order.isPaid && (
+                    <ListGroup.Item>
+                      {loadingPay && <Loader />}
+                      {!sdkReady ? (
+                        <Loader />
+                      ) : (
+                        <PayPalButton
+                          amount={order.totalPrice}
+                          onSuccess={successPaymentHandler}
+                        />
+                      )}
+                    </ListGroup.Item>
+                  )}
+                </ListGroup>
+              </Card>
+            </Col>
+          </Row>
+        </>
       ) : null}
     </div>
   );

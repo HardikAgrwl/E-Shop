@@ -1,6 +1,6 @@
 import axios from "axios";
 import { returnErrors } from "./errorActions";
-import { CHECKOUT, GET_ORDERS, ORDERS_LOADING } from "./types";
+import { ADD_ORDER, CHECKOUT, GET_ORDERS, ORDERS_LOADING } from "./types";
 
 export const getOrders = (id) => (dispatch) => {
   dispatch(setOrdersLoading());
@@ -17,9 +17,16 @@ export const getOrders = (id) => (dispatch) => {
     );
 };
 
-export const checkout = (id, source) => (dispatch) => {
+export const addOrder = (id, order) => (dispatch) => {
+  dispatch({
+    type: ADD_ORDER,
+    payload: order,
+  });
+};
+
+export const checkout = (id, source, address) => (dispatch) => {
   axios
-    .post(`/api/order/${id}`, { source })
+    .post(`/api/order/${id}`, { source, address })
     .then((res) =>
       dispatch({
         type: CHECKOUT,

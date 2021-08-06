@@ -14,7 +14,7 @@ export const checkout = async (req, res) => {
   try {
     const stripe = new Stripe(process.env.STRIPE_KEY);
     const userId = req.params.id;
-    const { source } = req.body;
+    const { source, address } = req.body;
     let cart = await Cart.findOne({ userid });
     let user = await User.findOne({ _id: userid });
     const email = user.email;
@@ -25,16 +25,24 @@ export const checkout = async (req, res) => {
         source: "source",
         receipt_email: "email",
       });
-      if (!charge) throw Error("Payment failed");
-      if (charge) {
-        const order = await Order.create({
-          userId,
-          items: cart.items,
-          bill: cart.bill,
-        });
-        const data = await Cart.findByIdAndDelete({ _id: cart.id });
-        return res.status(201).send(order);
+      let status, payment;
+      if (!charge) {
+        status = 400;
+        payment = "failed";
       }
+      if (charge) {
+        status = 201;
+        payment = "success";
+      }
+      const order = await Order.create({
+        userId,
+        items: cart.items,
+        address,
+        payment,
+        bill: cart.bill,
+      });
+      const data = await Cart.findByIdAndDelete({ _id: cart.id });
+      return res.status(status).send(order);
     } else {
       res.status(500).send("You do not have items in cart");
     }

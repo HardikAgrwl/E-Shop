@@ -11,7 +11,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { addToCart, getCart, updateCart } from "../../actions/cartActions";
 
 const CartScreen = ({
@@ -27,6 +27,7 @@ const CartScreen = ({
     loaded: false,
   });
   // console.log(cart);
+  const history = useHistory();
 
   const getCartItems = async (id) => {
     await getCart(id);
@@ -73,6 +74,7 @@ const CartScreen = ({
     // history.push("/login?redirect=shipping");
     console.log(user.id, [...cart.items], cart.bill);
     await addToCart(user.id, [...cart.items], cart.bill);
+    history.push("/shipping");
     console.log("checkout");
   };
 

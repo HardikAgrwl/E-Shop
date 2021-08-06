@@ -2,13 +2,13 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddItemComponent from "../layout/AddItemComponent";
 import NavComponent from "../layout/NavComponent";
-import OrderComponent from "../layout/OrderComponent";
 import { ToastComponent } from "../layout/toastComponent";
 import CartScreen from "./cartScreen";
 import HomeComponent from "./HomeScreen";
 import ItemScreen from "./ItemScreen";
 import LoginScreen from "./LoginScreen";
 import RegisterScreen from "./RegisterScreen";
+import ShippingScreen from "./ShippingScreen";
 
 const MainComponent = () => {
   return (
@@ -22,7 +22,7 @@ const MainComponent = () => {
         <Route path="/item/:id" exact component={ItemScreen} />
         <Route path="/addItem" exact component={AddItemComponent} />
         <Route path="/cart" exact component={CartScreen} />
-        <Route path="/orders" exact component={OrderComponent} />
+        <Route path="/shipping" exact component={ShippingScreen} />
       </Router>
     </div>
   );

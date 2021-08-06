@@ -22,6 +22,32 @@ const OrderSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  payment: {
+    type: String,
+    required: true,
+  },
+  address: {
+    street: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    postalCode: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    contact: {
+      type: String,
+      required: true,
+    },
+  },
   date_added: {
     type: Date,
     default: Date.now(),
