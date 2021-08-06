@@ -26,7 +26,6 @@ const CartScreen = ({
   const [state, setState] = useState({
     loaded: false,
   });
-  // console.log(cart);
   const history = useHistory();
 
   const getCartItems = async (id) => {
@@ -72,10 +71,8 @@ const CartScreen = ({
 
   const checkoutHandler = async () => {
     // history.push("/login?redirect=shipping");
-    console.log(user.id, [...cart.items], cart.bill);
     await addToCart(user.id, [...cart.items], cart.bill);
     history.push("/shipping");
-    console.log("checkout");
   };
 
   const { items, bill } = cart;
@@ -85,13 +82,13 @@ const CartScreen = ({
       {isAuthenticated ? (
         <>
           {cart ? null : (
-            <Alert color="info" className="text-center">
+            <Alert variant="info" className="text-center">
               Your cart is empty!
             </Alert>
           )}
         </>
       ) : (
-        <Alert color="danger" className="text-center">
+        <Alert variant="danger" className="text-center">
           Login to View!
         </Alert>
       )}

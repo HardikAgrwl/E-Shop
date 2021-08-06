@@ -16,6 +16,7 @@ export const DELETE_FROM_CART = "DELETE_FROM_CART";
 export const ORDERS_LOADING = "ORDERS_LOADING";
 export const GET_ORDERS = "GET_ORDERS";
 export const ADD_ORDER = "ADD_ORDER";
+export const ADD_PAYMENT_METHOD = "ADD_PAYMENT_METHOD";
 export const CHECKOUT = "CHECKOUT";
 
 export const USER_LOADING = "USER_LOADING";

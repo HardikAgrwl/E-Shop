@@ -2,13 +2,17 @@ import PropTypes from "prop-types";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { connect } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
+import { useHistory } from "react-router-dom";
 import { clearCart } from "../../actions/cartActions";
 import { logout } from "../../actions/userActions";
 import CartIconComponent from "./CartIconComponent";
 
 const NavComponent = (props) => {
   const { isAuthenticated, user } = props.user;
+  const history = useHistory();
+
   const logoutHandler = () => {
+    history.push(history.location.pathname);
     props.clearCart();
     props.logout();
   };

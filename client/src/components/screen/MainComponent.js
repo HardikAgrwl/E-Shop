@@ -7,6 +7,8 @@ import CartScreen from "./cartScreen";
 import HomeComponent from "./HomeScreen";
 import ItemScreen from "./ItemScreen";
 import LoginScreen from "./LoginScreen";
+import PaymentScreen from "./PaymentScreen";
+import PlaceOrderScreen from "./PlaceOrderScreen";
 import RegisterScreen from "./RegisterScreen";
 import ShippingScreen from "./ShippingScreen";
 
@@ -23,6 +25,8 @@ const MainComponent = () => {
         <Route path="/addItem" exact component={AddItemComponent} />
         <Route path="/cart" exact component={CartScreen} />
         <Route path="/shipping" exact component={ShippingScreen} />
+        <Route path="/payment" exact component={PaymentScreen} />
+        <Route path="/placeorder" exact component={PlaceOrderScreen} />
       </Router>
     </div>
   );

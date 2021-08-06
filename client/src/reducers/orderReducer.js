@@ -1,5 +1,6 @@
 import {
   ADD_ORDER,
+  ADD_PAYMENT_METHOD,
   CHECKOUT,
   GET_ORDERS,
   ORDERS_LOADING,
@@ -7,6 +8,7 @@ import {
 
 const initialState = {
   currentOrder: {},
+  paymentMethod: "",
   orders: [],
   loading: false,
 };
@@ -23,6 +25,11 @@ export default function orderReducer(state = initialState, action) {
       return {
         ...state,
         currentOrder: action.payload,
+      };
+    case ADD_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: action.payload,
       };
     case CHECKOUT:
       return {

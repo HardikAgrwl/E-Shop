@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
-import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors } from "../../actions/errorActions";
 import { login } from "../../actions/userActions";
@@ -40,13 +39,11 @@ const LoginScreen = (props) => {
     if (isValid) props.login(data);
   };
 
-  const location = useLocation();
-  const { redirectTo } = queryString.parse(location.search);
   const history = useHistory();
   return (
     <>
       {props.isAuthenticated ? (
-        history.push(redirectTo == null ? "/" : redirectTo)
+        history.goBack()
       ) : (
         <FormContainer>
           <h1>Sign In</h1>

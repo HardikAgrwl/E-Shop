@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
-import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearErrors } from "../../actions/errorActions";
 import { register } from "../../actions/userActions";
@@ -47,14 +46,12 @@ const RegisterModal = (props) => {
     setState({ ...state, errors: errors });
   };
 
-  const location = useLocation();
-  const { redirectTo } = queryString.parse(location.search);
   const history = useHistory();
 
   return (
     <>
       {props.isAuthenticated ? (
-        history.push(redirectTo == null ? "/" : redirectTo)
+        history.goBack()
       ) : (
         <FormContainer>
           <h1>Register</h1>

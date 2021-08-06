@@ -51,7 +51,6 @@ const ItemScreen = ({ item, isAuthenticated, user, cart, addToCart }) => {
         let productItem = cart.items[itemIndex];
         productItem.quantity += Number(qty);
         if (productItem.quantity > 5) {
-          console.log(productItem.quantity);
           productItem.quantity -= Number(qty);
           toast.error("Maximum 5 units allowed", toastConfig);
           return;
@@ -72,6 +71,7 @@ const ItemScreen = ({ item, isAuthenticated, user, cart, addToCart }) => {
       addToCart(user._id, updatedCartItems, bill);
     } else {
       toast.warning("Login to continue", toastConfig);
+      history.push(history.location.pathname);
       history.push("/login");
     }
   };
