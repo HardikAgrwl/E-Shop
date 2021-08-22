@@ -1,4 +1,5 @@
 import Cart from "../models/cart.js";
+import Item from "../models/item.js";
 import Order from "../models/order.js";
 import User from "../models/user.js";
 
@@ -18,6 +19,11 @@ export const checkout = async (req, res) => {
     let user = await User.findOne({ _id: userId });
     const email = user.email;
     if (cart) {
+      cart.items.forEach(async (i) => {
+        let item = await Item.findOne({ _id: i.productId });
+        item.countInStock -= i.quantity;
+        item = await item.save();
+      });
       // const charge = await stripe.charges.create({
       //   amount: bill,
       //   currency: "inr",

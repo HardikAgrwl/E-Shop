@@ -8,7 +8,7 @@ import Product from "../layout/Product.js";
 
 const HomeScreen = (props) => {
   useEffect(() => {
-    if (props.item.items.length === 0) props.getItems();
+    props.getItems();
     //eslint-disable-next-line
   }, []);
 

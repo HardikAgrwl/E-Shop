@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+import { toastConfig } from "../components/layout/toastComponent";
 import { clearCart } from "./cartActions";
 import { returnErrors } from "./errorActions";
 import {
@@ -10,7 +12,6 @@ import {
 } from "./types";
 
 export const getOrders = (id) => (dispatch) => {
-  console.log("hello");
   dispatch(setOrdersLoading());
   axios
     .get(`/api/order/${id}`)
@@ -40,15 +41,16 @@ export const addPaymentMethod = (paymentMethod) => (dispatch) => {
 };
 
 export const checkout = (id, address, paymentMethod, bill) => (dispatch) => {
+  dispatch(setOrdersLoading());
   axios
     .post(`/api/order/${id}`, { address, paymentMethod, bill })
     .then((res) => {
-      console.log("checkout ");
       clearCart();
       dispatch({
         type: CHECKOUT,
         payload: res.data,
       });
+      toast.success("Ordered Successfully", toastConfig);
     })
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))

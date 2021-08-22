@@ -37,6 +37,7 @@ export default function orderReducer(state = initialState, action) {
         currentOrder: action.payload,
         paymentMethod: "",
         orders: [action.payload, ...state.orders],
+        loading: false,
       };
 
     case ORDERS_LOADING:

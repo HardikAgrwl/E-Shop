@@ -22,7 +22,7 @@ const OrdersScreen = ({
       await getOrders(id);
       setState({ loading: false });
     };
-    fetchOrders(user.id); //eslint-disable-next-line
+    if (!loading) fetchOrders(user.id); //eslint-disable-next-line
   }, []);
 
   useEffect(() => {

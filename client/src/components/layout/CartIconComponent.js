@@ -4,10 +4,9 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getCart } from "../../actions/cartActions";
 
-const CartIconComponent = ({ cart, getCart, user }) => {
+const CartIconComponent = ({ cart, getCart, user, orders }) => {
   const [itemCount, setItemCount] = useState(0);
   const cartItemsCount = (items) => {
-    console.log("cartItmsCount");
     let cartCount = 0;
     for (let i = 0; i < items.length; i++) {
       cartCount += items[i].quantity;
@@ -15,13 +14,15 @@ const CartIconComponent = ({ cart, getCart, user }) => {
     setItemCount(cartCount);
   };
   useEffect(() => {
-    console.log("useEffect");
     if (cart.items) cartItemsCount(cart.items);
     else {
       if (user) getCart(user.id);
     } //eslint-disable-next-line
   }, [cart]);
-  console.log(cart, itemCount);
+
+  useEffect(() => {
+    getCart(user.id); //eslint-disable-next-line
+  }, [orders]);
 
   return (
     <div>
@@ -40,6 +41,7 @@ CartIconComponent.propTypes = {
 const mapStateToProps = (state) => ({
   cart: state.cart.cart,
   user: state.user.user,
+  orders: state.order.orders,
 });
 
 export default connect(mapStateToProps, { getCart })(CartIconComponent);

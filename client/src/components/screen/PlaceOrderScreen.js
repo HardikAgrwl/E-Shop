@@ -49,23 +49,11 @@ const PlaceOrderScreen = ({
     Number(taxPrice)
   ).toFixed(2);
 
-  //   useEffect(() => {
-  //     if (success) {
-  //       history.push(`/order/${order._id}`);
-  //     }
-  //     // eslint-disable-next-line
-  //   }, [history, success]);
-
   const placeOrderHandler = async (e) => {
     e.preventDefault();
     addOrder({ ...currentOrder, bill: totalPrice });
-    await checkout(
-      user.id,
-      currentOrder.address,
-      paymentMethod,
-      currentOrder.bill
-    );
-    history.push("/order");
+    await checkout(user.id, currentOrder.address, paymentMethod, totalPrice);
+    history.push("/orders");
   };
 
   return (
