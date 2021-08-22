@@ -7,6 +7,7 @@ import { getCart } from "../../actions/cartActions";
 const CartIconComponent = ({ cart, getCart, user }) => {
   const [itemCount, setItemCount] = useState(0);
   const cartItemsCount = (items) => {
+    console.log("cartItmsCount");
     let cartCount = 0;
     for (let i = 0; i < items.length; i++) {
       cartCount += items[i].quantity;
@@ -14,16 +15,18 @@ const CartIconComponent = ({ cart, getCart, user }) => {
     setItemCount(cartCount);
   };
   useEffect(() => {
+    console.log("useEffect");
     if (cart.items) cartItemsCount(cart.items);
     else {
       if (user) getCart(user.id);
     } //eslint-disable-next-line
-  }, [cart.items]);
+  }, [cart]);
+  console.log(cart, itemCount);
 
   return (
     <div>
       {"Cart "}
-      <Badge color="secondary" badgeContent={itemCount}>
+      <Badge color="secondary" badgeContent={cart.items ? itemCount : 0}>
         <i className="fas fa-shopping-cart"></i>
       </Badge>
     </div>

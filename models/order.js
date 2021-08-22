@@ -9,11 +9,14 @@ const OrderSchema = mongoose.Schema({
       productId: {
         type: String,
       },
+      image: String,
       name: String,
+      countInStock: Number,
       quantity: {
         type: Number,
         required: true,
         min: [1, "Quantity can not be less then 1."],
+        deafult: 1,
       },
       price: Number,
     },
@@ -23,6 +26,14 @@ const OrderSchema = mongoose.Schema({
     required: true,
   },
   payment: {
+    type: String,
+    required: true,
+  },
+  delivered: {
+    type: Boolean,
+    required: true,
+  },
+  paymentMethod: {
     type: String,
     required: true,
   },

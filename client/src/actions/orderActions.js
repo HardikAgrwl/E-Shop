@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearCart } from "./cartActions";
 import { returnErrors } from "./errorActions";
 import {
   ADD_ORDER,
@@ -9,6 +10,7 @@ import {
 } from "./types";
 
 export const getOrders = (id) => (dispatch) => {
+  console.log("hello");
   dispatch(setOrdersLoading());
   axios
     .get(`/api/order/${id}`)
@@ -37,15 +39,17 @@ export const addPaymentMethod = (paymentMethod) => (dispatch) => {
   });
 };
 
-export const checkout = (id, source, address) => (dispatch) => {
+export const checkout = (id, address, paymentMethod, bill) => (dispatch) => {
   axios
-    .post(`/api/order/${id}`, { source, address })
-    .then((res) =>
+    .post(`/api/order/${id}`, { address, paymentMethod, bill })
+    .then((res) => {
+      console.log("checkout ");
+      clearCart();
       dispatch({
         type: CHECKOUT,
         payload: res.data,
-      })
-    )
+      });
+    })
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );

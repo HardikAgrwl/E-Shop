@@ -10,7 +10,7 @@ const PaymentScreen = ({ order, isAuthenticated, addPaymentMethod }) => {
   const history = useHistory();
   useEffect(() => {
     if (!isAuthenticated) history.push("/login");
-    if (!order.currentOrder.shippingAddress) {
+    if (!order.currentOrder.address) {
       history.push("/shipping");
     } //eslint-disable-next-line
   }, []);

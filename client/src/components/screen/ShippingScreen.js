@@ -7,7 +7,7 @@ import { addOrder } from "../../actions/orderActions";
 import CheckoutSteps from "../layout/checkoutSteps";
 import FormContainer from "../layout/FormContainer";
 
-const ShippingScreen = ({ isAuthenticated, cart, addOrder, currOrder }) => {
+const ShippingScreen = ({ isAuthenticated, cart, addOrder, currentOrder }) => {
   const initialState = {
     street: "",
     city: "",
@@ -16,13 +16,13 @@ const ShippingScreen = ({ isAuthenticated, cart, addOrder, currOrder }) => {
     contact: "",
   };
   const [shippingAddress, setShippingAddress] = useState(
-    currOrder.shippingAddress ? currOrder.shippingAddress : initialState
+    currentOrder.address ? currentOrder.address : initialState
   );
   const history = useHistory();
 
   useEffect(() => {
     if (!isAuthenticated) history.push("/login"); //eslint-disable-next-line
-  }, [currOrder]);
+  }, [currentOrder]);
 
   const changeHandler = (e) => {
     setShippingAddress({ ...shippingAddress, [e.target.name]: e.target.value });
@@ -30,7 +30,7 @@ const ShippingScreen = ({ isAuthenticated, cart, addOrder, currOrder }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    addOrder({ items: cart.items, bill: cart.bill, shippingAddress });
+    addOrder({ items: cart.items, bill: cart.bill, address: shippingAddress });
     history.push("/payment");
   };
 
@@ -122,7 +122,7 @@ const mapStateToProps = (state) => ({
   cart: state.cart.cart,
   loading: state.cart.loading,
   isAuthenticated: state.user.isAuthenticated,
-  currOrder: state.order.currentOrder,
+  currentOrder: state.order.currentOrder,
 });
 
 export default connect(mapStateToProps, { addOrder })(ShippingScreen);

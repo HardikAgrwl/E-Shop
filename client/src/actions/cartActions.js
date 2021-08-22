@@ -14,12 +14,13 @@ export const getCart = (id) => (dispatch) => {
   dispatch(setCartLoading());
   axios
     .get(`/api/cart/${id}`)
-    .then((res) =>
+    .then((res) => {
+      console.log("getCart");
       dispatch({
         type: GET_CART,
         payload: res.data,
-      })
-    )
+      });
+    })
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
@@ -47,7 +48,6 @@ export const updateCart = (cart) => (dispatch) => {
 };
 
 export const saveCart = (id, productId, quantity) => (dispatch) => {
-  console.log("cartAction updatecart");
   axios
     .put(`/api/cart/${id}`, { productId, quantity })
     .then((res) =>
@@ -82,6 +82,7 @@ export const setCartLoading = () => {
 };
 
 export const clearCart = () => {
+  console.log("clear cart");
   return {
     type: CLEAR_CART,
   };

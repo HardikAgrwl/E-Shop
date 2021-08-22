@@ -51,7 +51,7 @@ const RegisterModal = (props) => {
   return (
     <>
       {props.isAuthenticated ? (
-        history.goBack()
+        history.push("/")
       ) : (
         <FormContainer>
           <h1>Register</h1>

@@ -34,7 +34,8 @@ export default function orderReducer(state = initialState, action) {
     case CHECKOUT:
       return {
         ...state,
-        currentOrder: {},
+        currentOrder: action.payload,
+        paymentMethod: "",
         orders: [action.payload, ...state.orders],
       };
 

@@ -43,7 +43,6 @@ export const addCartItems = async (req, res) => {
 };
 
 export const updateCart = async (req, res) => {
-  console.log("server updateCart");
   const userId = req.params.id;
   const { productId, quantity } = req.body;
   try {

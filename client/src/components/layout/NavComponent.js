@@ -12,7 +12,9 @@ const NavComponent = (props) => {
   const history = useHistory();
 
   const logoutHandler = () => {
-    history.push(history.location.pathname);
+    history.push("/");
+    history.push("/");
+    history.push("/login");
     props.clearCart();
     props.logout();
   };
@@ -41,7 +43,7 @@ const NavComponent = (props) => {
               </LinkContainer>
               {isAuthenticated ? (
                 <NavDropdown title={user.name} id="username">
-                  <LinkContainer to="/order">
+                  <LinkContainer to="/orders">
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={() => logoutHandler()}>

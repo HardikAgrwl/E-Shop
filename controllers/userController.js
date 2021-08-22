@@ -98,5 +98,12 @@ export const login = (req, res) => {
 export const get_user = (req, res) => {
   User.findById(req.user.id)
     .select("-password")
-    .then((user) => res.json(user));
+    .then((user) =>
+      res.json({
+        date_added: user.date_added,
+        email: user.email,
+        name: user.name,
+        id: user._id,
+      })
+    );
 };

@@ -40,10 +40,11 @@ const LoginScreen = (props) => {
   };
 
   const history = useHistory();
+  console.log(history);
   return (
     <>
       {props.isAuthenticated ? (
-        history.goBack()
+        history.push("/")
       ) : (
         <FormContainer>
           <h1>Sign In</h1>

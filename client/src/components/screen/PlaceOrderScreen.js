@@ -10,17 +10,27 @@ import {
 } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { clearCart } from "../../actions/cartActions";
+import { addOrder, checkout } from "../../actions/orderActions";
 import CheckoutSteps from "../layout/checkoutSteps";
 
-const PlaceOrderScreen = ({ cart, order, isAuthenticated }) => {
+const PlaceOrderScreen = ({
+  cart,
+  user,
+  order,
+  checkout,
+  isAuthenticated,
+  addOrder,
+  clearCart,
+}) => {
   //   Calculate prices
   const { currentOrder, paymentMethod } = order;
-  console.log(order);
+  // console.log(order);
   const history = useHistory();
 
   useEffect(() => {
     if (!isAuthenticated) history.push("/login");
-    if (!currentOrder.shippingAddress) history.push("/shipping");
+    if (!currentOrder.address) history.push("/shipping");
     if (!paymentMethod || paymentMethod === "") history.push("/payment");
     //eslint-disable-next-line
   }, []);
@@ -46,8 +56,16 @@ const PlaceOrderScreen = ({ cart, order, isAuthenticated }) => {
   //     // eslint-disable-next-line
   //   }, [history, success]);
 
-  const placeOrderHandler = () => {
-    console.log("order placed");
+  const placeOrderHandler = async (e) => {
+    e.preventDefault();
+    addOrder({ ...currentOrder, bill: totalPrice });
+    await checkout(
+      user.id,
+      currentOrder.address,
+      paymentMethod,
+      currentOrder.bill
+    );
+    history.push("/order");
   };
 
   return (
@@ -64,11 +82,10 @@ const PlaceOrderScreen = ({ cart, order, isAuthenticated }) => {
                   <h2>Shipping</h2>
                   <p>
                     <strong>Address:</strong>
-                    {currentOrder.shippingAddress.street},{" "}
-                    {currentOrder.shippingAddress.city}{" "}
-                    {currentOrder.shippingAddress.postalCode},{" "}
-                    {currentOrder.shippingAddress.country} ,{" "}
-                    {currentOrder.shippingAddress.contact}
+                    {currentOrder.address.street}, {currentOrder.address.city}{" "}
+                    {currentOrder.address.postalCode},{" "}
+                    {currentOrder.address.country} ,{" "}
+                    {currentOrder.address.contact}
                   </p>
                 </ListGroup.Item>
 
@@ -80,7 +97,7 @@ const PlaceOrderScreen = ({ cart, order, isAuthenticated }) => {
 
                 <ListGroup.Item>
                   <h2>Order Items</h2>
-                  {cart.items.length === 0 ? (
+                  {!cart.items || cart.items.length === 0 ? (
                     <Alert variant="info" className="text-center">
                       Your cart is empty
                     </Alert>
@@ -151,7 +168,7 @@ const PlaceOrderScreen = ({ cart, order, isAuthenticated }) => {
                     <Button
                       type="button"
                       className="btn-block"
-                      disabled={cart.items.length === 0}
+                      disabled={!cart.items || cart.items.length === 0}
                       onClick={placeOrderHandler}
                     >
                       Place Order
@@ -170,7 +187,10 @@ const PlaceOrderScreen = ({ cart, order, isAuthenticated }) => {
 const mapStateToProps = (state) => ({
   cart: state.cart.cart,
   order: state.order,
+  user: state.user.user,
   isAuthenticated: state.user.isAuthenticated,
 });
 
-export default connect(mapStateToProps, null)(PlaceOrderScreen);
+export default connect(mapStateToProps, { addOrder, checkout, clearCart })(
+  PlaceOrderScreen
+);

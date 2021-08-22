@@ -68,7 +68,7 @@ const ItemScreen = ({ item, isAuthenticated, user, cart, addToCart }) => {
       }
       let bill = cart.bill ? cart.bill : 0;
       bill = Number((bill + qty * product.price).toFixed(2));
-      addToCart(user._id, updatedCartItems, bill);
+      addToCart(user.id, updatedCartItems, bill);
     } else {
       toast.warning("Login to continue", toastConfig);
       history.push(history.location.pathname);
