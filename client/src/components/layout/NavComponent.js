@@ -24,7 +24,7 @@ const NavComponent = (props) => {
       <Navbar bg="dark" variant="dark" collapseOnSelect expand="lg">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand href="/">ProShop</Navbar.Brand>
+            <Navbar.Brand href="/">E-Shop</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
